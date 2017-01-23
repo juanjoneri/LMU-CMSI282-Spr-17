@@ -33,18 +33,21 @@ public class RandomPartition {
     }
 
     private static int kSmallest (int[] arr, int k, int start, int end) {
+        if ( k - 1 < 0 || k - 1 > (end - start)) return -1;
 
         PivotData pd = randomPartition(arr, start, end);
-        System.out.println("k: " + k);
+        System.out.println("\nk: " + k + " in rage: (" + start + ", " + end + ")");
         System.out.println(Arrays.toString(arr));
         System.out.println(pd);
 
-        if (k - 1 >= pd.posFirst && k - 1 <= pd.posFirst + pd.numOfPivots - 1)
+        if (k - 1 >= (pd.posFirst - start) && k - 1 <= ((pd.posFirst - start) + pd.numOfPivots - 1))
             return pd.pivotValue;
-        else if (k > pd.posFirst + pd.numOfPivots)
-            return kSmallest(arr, k - (pd.posFirst + pd.numOfPivots), pd.posFirst + pd.numOfPivots + 1, end);
-        else
-            return kSmallest(arr, k, start, pd.posFirst - 1);
+        else if (k - 1 > ((pd.posFirst - start) + pd.numOfPivots - 1)) {
+            System.out.println("big");
+            return kSmallest(arr, k - (pd.posFirst + pd.numOfPivots) + start, pd.posFirst + pd.numOfPivots, end); }
+        else {
+            System.out.println("small");
+            return kSmallest(arr, k, start, pd.posFirst - 1); }
 
 
     }
@@ -87,7 +90,7 @@ public class RandomPartition {
     /**
     * helper method to put all copies of pivot around the pivot in the edge of the partition
     * @return a new PivotData with the information of the pivots in this array
-    * @param pivotIdx the position of the pivot with respect to start, the edge of the partition
+    * @param pivotIdx the position of the pivot in the array
     */
     private static PivotData joinPivots (int[] arr, int pivotIdx, int start, int end) {
         if (start > pivotIdx || end < pivotIdx) return new PivotData(arr[pivotIdx], 1, start);
@@ -105,7 +108,7 @@ public class RandomPartition {
         for (int i = start; i <= end; i++) {
             if(arr[i] == pivot){
                 count++;
-                pos = i - start;
+                pos = i;
             }
         }
         return new PivotData(arr[pivotIdx], count, pos - count + 1);
@@ -149,12 +152,9 @@ public class RandomPartition {
     }
 
 	public static void main (String[] args) {
-		int[] arr = new int[] {1,1,2,2,3,3,4,4,5,5};
+		int[] arr = new int[] {1,9,2,8,3,7,4,6,5};
         System.out.println(Arrays.toString(arr));
-        //System.out.println(randomPartition(arr, 0, arr.length - 1).toString());
-        //System.out.println(Arrays.toString(arr));
-        //for (int i = 0; i < 10; i ++) System.out.println(ranBetween(0,2));
-        System.out.println(kSmallest(arr, 5));
+        System.out.println(kSmallest(arr, 9));
 	}
 
 }
