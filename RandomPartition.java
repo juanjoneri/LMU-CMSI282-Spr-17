@@ -36,19 +36,13 @@ public class RandomPartition {
         if ( k - 1 < 0 || k - 1 > (end - start)) return -1;
 
         PivotData pd = randomPartition(arr, start, end);
-        System.out.println("\nk: " + k + " in rage: (" + start + ", " + end + ")");
-        System.out.println(Arrays.toString(arr));
-        System.out.println(pd);
 
         if (k - 1 >= (pd.posFirst - start) && k - 1 <= ((pd.posFirst - start) + pd.numOfPivots - 1))
             return pd.pivotValue;
-        else if (k - 1 > ((pd.posFirst - start) + pd.numOfPivots - 1)) {
-            System.out.println("big");
-            return kSmallest(arr, k - (pd.posFirst + pd.numOfPivots) + start, pd.posFirst + pd.numOfPivots, end); }
-        else {
-            System.out.println("small");
-            return kSmallest(arr, k, start, pd.posFirst - 1); }
-
+        else if (k - 1 > ((pd.posFirst - start) + pd.numOfPivots - 1))
+            return kSmallest(arr, k - (pd.posFirst + pd.numOfPivots) + start, pd.posFirst + pd.numOfPivots, end);
+        else
+            return kSmallest(arr, k, start, pd.posFirst - 1);
 
     }
 
@@ -154,7 +148,7 @@ public class RandomPartition {
 	public static void main (String[] args) {
 		int[] arr = new int[] {1,9,2,8,3,7,4,6,5};
         System.out.println(Arrays.toString(arr));
-        System.out.println(kSmallest(arr, 9));
+        System.out.println(kSmallest(arr, 1));
 	}
 
 }
