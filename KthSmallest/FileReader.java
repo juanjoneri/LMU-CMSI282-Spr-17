@@ -12,7 +12,7 @@ public class FileReader {
     private java.io.BufferedReader stdIn;
 
     public FileReader () {
-        stdIn = new java.io.BufferedReader ( new java.io.InputStreamReader ( System.in ) );
+        stdIn = new java.io.BufferedReader (new java.io.InputStreamReader(System.in));
     }
 
     public int[] readNumbers () {
