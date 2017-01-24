@@ -2,13 +2,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.io.*;
 
+/**
+ * this class deals with the complications of reading external lines
+ * could be made internal to KthSmallest but.. it would have been to much in just one file
+ * besides we might use this in the future!
+ */
 public class FileReader {
 
     private java.io.BufferedReader stdIn;
 
-    /**
-     * @param file the .txt file from which to read, of course
-     */
     public FileReader () {
         stdIn = new java.io.BufferedReader ( new java.io.InputStreamReader ( System.in ) );
     }
