@@ -146,9 +146,9 @@ public class KthSmallest {
     }
 
 	public static void main (String[] args) {
-		int[] arr = new int[] {1,9,2,8,3,7,4,6,5};
+		int[] arr = new int[] {5,1,5,2,324,5,3,5,4,6,64,7,8,9};
         System.out.println(Arrays.toString(arr));
-        System.out.println(kSmallest(arr, 1));
+        System.out.println(kSmallest(arr, 6));
 	}
 
 }
