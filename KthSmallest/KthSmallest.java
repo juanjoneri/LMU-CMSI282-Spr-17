@@ -146,9 +146,29 @@ public class KthSmallest {
     }
 
 	public static void main (String[] args) {
-		int[] arr = new int[] {5,1,5,2,324,5,3,5,4,6,64,7,8,9};
-        System.out.println(Arrays.toString(arr));
-        System.out.println(kSmallest(arr, 6));
+        boolean goodK = false;
+        boolean goodList = false;
+
+        if (args.length > 0) {
+            goodK = true;
+            for (char c : args[0].toCharArray())
+                if ((c - '0') > 9 || (c - '0') < 0) goodK = false;
+        }
+
+        if (goodK) {
+            int k = Integer.parseInt(args[0]);
+            FileReader fr = new FileReader();
+            int[] numbers = fr.readNumbers();
+            if (numbers.length > 0 && k > 0 && k <= numbers.length) System.out.println(kSmallest(numbers, k));
+            else System.out.println("BAD DATA");
+        } else {
+            System.out.println("BAD DATA");
+        }
+
+        // //System.out.println(Arrays.toString(numbers));
+        // if (goodList) System.out.println(kSmallest(numbers, k));
+        // else System.out.println("BAD DATA, List");
+
 	}
 
 }
