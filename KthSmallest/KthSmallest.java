@@ -1,6 +1,7 @@
 import java.util.Arrays;
 //import java.util.StringBuilder;
 
+//isn't a class. It's just a holder for static constants and methods.
 public class KthSmallest {
 
     /**
@@ -144,31 +145,5 @@ public class KthSmallest {
         }
         return true;
     }
-
-	public static void main (String[] args) {
-        boolean goodK = false;
-        boolean goodList = false;
-
-        if (args.length > 0) {
-            goodK = true;
-            for (char c : args[0].toCharArray())
-                if ((c - '0') > 9 || (c - '0') < 0) goodK = false;
-        }
-
-        if (goodK) {
-            int k = Integer.parseInt(args[0]);
-            FileReader fr = new FileReader();
-            int[] numbers = fr.readNumbers();
-            if (numbers.length > 0 && k > 0 && k <= numbers.length) System.out.println(kSmallest(numbers, k));
-            else System.out.println("BAD DATA");
-        } else {
-            System.out.println("BAD DATA");
-        }
-
-        // //System.out.println(Arrays.toString(numbers));
-        // if (goodList) System.out.println(kSmallest(numbers, k));
-        // else System.out.println("BAD DATA, List");
-
-	}
 
 }
