@@ -3,7 +3,7 @@ import java.util.Iterator;
 import java.io.*;
 
 /**
- * this class deals with the complications of reading external lines
+ * this class deals with the complications of reading lines from stdIn
  * could be made internal to KthSmallest but.. it would have been to much in just one file
  * besides we might use this in the future!
  */
@@ -50,6 +50,6 @@ public class FileReader {
         Iterator<Integer> iterator = integers.iterator();
         for (int i = 0; i < ret.length; i++) ret[i] = iterator.next().intValue();
         return ret;
-}
+    }
 
 }
