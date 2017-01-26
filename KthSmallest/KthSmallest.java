@@ -83,27 +83,38 @@ public class KthSmallest {
 	}
 
     /**
-    * helper method to put all copies of pivot around the pivot in the edge of the partition
+    * helper method to put all copies of pivot around the pivot in the edge of the partition O(n)
+    * will not increase complexity
     * @return a new PivotData with the information of the pivots in this array
     * @param pivotIdx the position of the pivot in the array
     */
     private static PivotData joinPivots (int[] arr, int pivotIdx, int start, int end) {
         if (start > pivotIdx || end < pivotIdx) return new PivotData(arr[pivotIdx], 1, start);
         int pivot = arr[pivotIdx];
+        int i = pivotIdx, j = pivotIdx;
+        // There migh already be some pivots next to the pivot, so we want to skip those
+        while (arr[i] == pivot && i > start) i --;
+        while (arr[j] == pivot && j < end) j ++;
 
-        // bubble up pivot that are below the "edge"
-        for (int i = pivotIdx - 1; i >= start; i--)
-            if (arr[i] == pivot) bubbleUp(arr, i);
-
-        // bubble down pivots that are above the "edge"
-        for (int j = pivotIdx + 1; j <= end; j++)
-            if (arr[j] == pivot) bubbleDown(arr, j);
-
+        // swap pivots to the left of pivot with the first elemeent to the left of pivot
+        for (int k = start; k < i; k++) {
+            if (arr[k] == pivot) {
+                exchange(arr, k, i);
+                while (arr[i] == pivot && i > start) i --;
+            }
+        }
+        // swap pivots to the right of pivot with the first elemeent to the right of pivot
+        for (int k = end; k > j; k--) {
+            if (arr[k] == pivot) {
+                exchange(arr, k, j);
+                while (arr[j] == pivot && j < end) j ++;
+            }
+        }
         int count = 0, pos = pivotIdx;
-        for (int i = start; i <= end; i++) {
-            if(arr[i] == pivot){
+        for (int k = start; k <= end; k++) {
+            if(arr[k] == pivot){
                 count++;
-                pos = i;
+                pos = k;
             }
         }
         return new PivotData(arr[pivotIdx], count, pos - count + 1);
@@ -114,27 +125,6 @@ public class KthSmallest {
 		arr[i] = arr[j];
 		arr[j] = temp;
 	}
-
-    /**
-     * will bubble element at position idx until it finds another with the same value
-     * efectively joining the copies in worst O(n)
-     */
-    private static void bubbleUp (int[] arr, int idx) {
-        while (arr[idx+1] != arr[idx] && idx != arr.length - 1) {
-            exchange(arr, idx, idx+1);
-            idx++;
-        }
-    }
-
-    /**
-     * will bubble down element at position idx until it finds another with the same value
-     */
-    private static void bubbleDown (int [] arr, int idx) {
-        while (arr[idx-1] != arr[idx] && idx != 0) {
-            exchange(arr, idx, idx-1);
-            idx--;
-        }
-    }
 
     /**
      * @return if pivot is the smallest element in range start, end
