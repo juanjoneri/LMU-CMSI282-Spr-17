@@ -13,10 +13,15 @@ for i in data:
 """
 
 """
+
 #print your data twice and Kth will be... k/2
-random.shuffle(data)
-for i in data:
-    print(i)
+for j in range(20):
+    import random
+    data = list(range(1,100))
+    random.shuffle(data)
+    for i in data:
+        print(i)
+
 """
 import random
 import sys

@@ -1,5 +1,4 @@
 import java.util.Arrays;
-//import java.util.StringBuilder;
 
 //isn't a class. It's just a holder for static constants and methods.
 public class KthSmallest {
