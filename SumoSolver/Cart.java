@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Cart {
+public class Cart implements Clonable{
 
     private static final int DEFAULT_INITIAL_CAPACITY = 10;
 
@@ -16,6 +16,29 @@ public class Cart {
 
     public Cart () {
         this(DEFAULT_INITIAL_CAPACITY);
+    }
+
+    // Not sure but i might need to clone in table memo
+    // public Cart (Cart toClone) {
+    //     this (toClone.getItemsCount, );
+    // }
+
+    public void addItem (Item item) {
+        items.add(item);
+        totalCost += item.getCost();
+        totalWeight += item.getWeight();
+    }
+
+    public int getTotalCost () {
+        return this.totalCost;
+    }
+
+    public int getTotalWeight () {
+        return this.totalWeight;
+    }
+
+    public int getItemsCount () {
+        return items.size();
     }
 
 
