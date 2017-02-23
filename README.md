@@ -16,4 +16,5 @@
 
 - Students will also be familiar with specific algorithms for a wide range of classic and practical problems, such as: arithmetic and number-theoretic algorithms; minimization/maximization of functions; fast (or otherwise interesting) matching, longest common subsequence, edit distance, and compression of strings; self-balancing data structures, and structures for union-find; generating combinatorial objects (e.g., permutations, combinations, integer and set partitions, Ramsey partitions, random graphs); network flows and maximum matchings; algorithms on graphs, e.g., connectivity and traversal, shortest paths, spanning trees; and algorithms for cake-cutting and fair division.
 
+
 **Visit the class [Website](http://pdorin.cs.lmu.edu/282.html) to learn more.**
