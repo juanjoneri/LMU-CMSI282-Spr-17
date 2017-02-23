@@ -2,7 +2,7 @@ public class Item {
 
     private static final String DEFAULT_LABEL = "Unbekannt";
 
-    private String label; // may be unnecesary because instances will have names.
+    private String label; // may be unnecesary because instances have names.
     private int cost;
     private int weight;
 
