@@ -32,6 +32,10 @@ public class Cart {
         totalWeight += item.getWeight();
     }
 
+    public static Cart getHeaviest (Cart c1, Cart c2) {
+        return c1.getTotalWeight() > c2.getTotalWeight() ? c1 : c2;
+    }
+
     public int getTotalCost () {
         return this.totalCost;
     }
