@@ -1,19 +1,11 @@
 public class Item {
 
-    private static final String DEFAULT_LABEL = "Unbekannt";
-
-    private String label; // may be unnecesary because instances have names.
     private int cost;
     private int weight;
 
-    public Item (String label, int cost, int weight) {
-        this.label = label;
+    public Item (int cost, int weight) {
         this.cost = cost;
         this.weight = weight;
-    }
-
-    public Item (int cost, int weight) {
-        this(DEFAULT_LABEL, cost, weight);
     }
 
     public int getCost () {
@@ -24,7 +16,12 @@ public class Item {
         return this.weight;
     }
 
-    public String getLabel () {
-        return this.label;
+    public String toString () {
+        String toPrint = "# Item: \n";
+        toPrint += " - Cost: ";
+        toPrint += this.cost;
+        toPrint += "\n - Weight: ";
+        toPrint += this.weight;
+        return toPrint;
     }
 }
