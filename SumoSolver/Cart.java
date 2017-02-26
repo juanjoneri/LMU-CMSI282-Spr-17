@@ -58,7 +58,7 @@ public class Cart {
             sb.append(i.toString());
             sb.append("\n");
         }
-        sb.append(this.items.size());
+        sb.append(getItemsCount());
         sb.append(" items / ");
         sb.append("$");
         sb.append(this.totalCost);
