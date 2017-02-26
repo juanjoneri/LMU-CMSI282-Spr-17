@@ -25,7 +25,7 @@ public class SumoSolver {
             // we have already computer this solution and we know it to be the best
             return memo.get(thisC);
         } else {
-            if (money >= currentI.getCost()) {
+            if (y >= currentI.getCost()) {
                 // We have enough money to use one instance of the last item in the store
                 // copy solution for remainder of money
                 heaviestCart = new Cart(getHeaviestCart(y - currentI.getCost(), storeItems));
@@ -37,7 +37,7 @@ public class SumoSolver {
             // solution "on top" in the table
             ArrayList<Item> storeItemsWOLast = new ArrayList<>(storeItems);
             storeItemsWOLast.remove(x - 1);
-            Cart topCart = new Cart(getHeaviestCart(money, storeItemsWOLast));
+            Cart topCart = new Cart(getHeaviestCart(y, storeItemsWOLast));
             if (topCart.getTotalWeight() > heaviestCart.getTotalWeight()){
                 heaviestCart = topCart;
             }
