@@ -7,36 +7,42 @@ public class SumoSolver {
     // make a hashtable behave as if it where a table using Coordinate class
     // x -> items
     // y -> money
+    // yes, i know its confusing
 
     public static Cart getHeaviestCart(int money, ArrayList<Item> storeItems) {
 
-        Cart heaviestCart = new Cart();
+        Cart heaviestCart = new Cart(); // start with the empy cart
 
-        if (money <= 0 || storeItems.size() <= 0) return heaviestCart; //return the empty cart
+        int x = storeItems.size(); //
+        int y = money;         // include the 0 (empty carts) in the start of the table
+        Coordinate thisC = new Coordinate(x, y);
 
-        int x = storeItems.size();
-        int y = money + 1;
+        if (x == 0 || y == 0) {
+            memo.put(thisC, heaviestCart);
+            return heaviestCart; //return the empty cart
+        }
 
-        Coordinate thisC = new Coordinate(x, y); // follow the heuristics of algorithm
+        Item currentI = storeItems.get(x - 1);
 
         if (memo.get(thisC) != null) {
             return memo.get(thisC); // this is the best solution then
         } else {
-            if (money > storeItems.get(x - 1).getCost()) {
+            if (money >= currentI.getCost()) {
                 // we can use one instance of the last item in the store
                 // copy solution for remainder of money
-                heaviestCart = new Cart(getHeaviestCart(y - storeItems.get(x - 1).getCost(), storeItems));
+                heaviestCart = new Cart(getHeaviestCart(y - currentI.getCost(), storeItems));
                 // add one instance of the current item
-                heaviestCart.addItem(storeItems.get(x - 1));
+                heaviestCart.addItem(currentI);
             }
 
+            // check if the solution for the same moeny y but store without last item is better
             ArrayList<Item> storeItemsWOLast = new ArrayList<>(storeItems); // check if sol w/o last item is better
             storeItemsWOLast.remove(x - 1);
-
-            // check if the solution for the same moeny y but store without last item is better
-            if (getHeaviestCart(y, storeItemsWOLast).getTotalWeight() > heaviestCart.getTotalWeight()){
-                heaviestCart = new Cart(getHeaviestCart(y, storeItemsWOLast));
+            Cart topCart = new Cart(getHeaviestCart(money, storeItemsWOLast));
+            if (topCart.getTotalWeight() > heaviestCart.getTotalWeight()){
+                heaviestCart = topCart;
             };
+
             memo.put(thisC, heaviestCart);
         }
 
