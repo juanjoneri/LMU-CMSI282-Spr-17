@@ -13,35 +13,34 @@ public class SumoSolver {
 
         Cart heaviestCart = new Cart(); // start with the empy cart
 
-        int x = storeItems.size(); //
-        int y = money;         // include the 0 (empty carts) in the start of the table
+        int x = storeItems.size();
+        int y = money;
+
+        if (x == 0 || y == 0) return heaviestCart; //return the empty cart because we either have no money or no items :(
+
         Coordinate thisC = new Coordinate(x, y);
-
-        if (x == 0 || y == 0) {
-            memo.put(thisC, heaviestCart);
-            return heaviestCart; //return the empty cart
-        }
-
         Item currentI = storeItems.get(x - 1);
 
         if (memo.get(thisC) != null) {
-            return memo.get(thisC); // this is the best solution then
+            // we have already computer this solution and we know it to be the best
+            return memo.get(thisC);
         } else {
             if (money >= currentI.getCost()) {
-                // we can use one instance of the last item in the store
+                // We have enough money to use one instance of the last item in the store
                 // copy solution for remainder of money
                 heaviestCart = new Cart(getHeaviestCart(y - currentI.getCost(), storeItems));
                 // add one instance of the current item
                 heaviestCart.addItem(currentI);
             }
 
-            // check if the solution for the same moeny y but store without last item is better
-            ArrayList<Item> storeItemsWOLast = new ArrayList<>(storeItems); // check if sol w/o last item is better
+            // check if the solution for the same money but store without last item is better
+            // solution "on top" in the table
+            ArrayList<Item> storeItemsWOLast = new ArrayList<>(storeItems);
             storeItemsWOLast.remove(x - 1);
             Cart topCart = new Cart(getHeaviestCart(money, storeItemsWOLast));
             if (topCart.getTotalWeight() > heaviestCart.getTotalWeight()){
                 heaviestCart = topCart;
-            };
+            }
 
             memo.put(thisC, heaviestCart);
         }
@@ -68,7 +67,7 @@ public class SumoSolver {
             1) get items in the store
             2) get ammount to be spent
             3) put them in store ArrayList
-            4) make a table for DP: store.size x ammount
+            4) make a table for DP: store.size x money
             5) fill in the table with new carts with DP:
                 5.1) can I buy this item with this money?
                 5.2) add the solution for the money that remains (use clone and add 0 or 1 from 5.1)
@@ -90,16 +89,16 @@ public class SumoSolver {
                     int itemWeight = Integer.parseInt(args[2 * i + 1]);
 
                     storeItems.add(new Item(itemValue, itemWeight));
-                    if (itemValue < 0 || itemWeight < 0) badArguments = true; // argument is negative
+                    if (itemValue < 0 || itemWeight < 0)
+                        badArguments = true; // argument is negative
                 }
 
             } catch (NumberFormatException nfe) {
                 badArguments = true; // argument is not a number
             }
 
-        } else {
+        } else
             badArguments = true; // not an odd number of arguments
-        }
 
         if (badArguments) {
             System.out.println(getInstructions());
