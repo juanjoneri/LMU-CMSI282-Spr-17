@@ -50,24 +50,37 @@ public class SumoSolver {
                 5.3) compare with solution without this item (on top) and replace if necessary
         */
 
+        boolean badArguments = false;
+        Item[] items = new Item[args.length / 2];
+        int money = 0;
+
         if (args.length % 2 == 1){
-            Item[] items = new Item[args.length / 2];
-            int money = 0;
 
             try {
                 money = Integer.parseInt(args[args.length - 1]);
+                if (money < 0) badArguments = true;
+
                 for (int i = 0; i < items.length; ++i) {
-                    items[i] = new Item(Integer.parseInt(args[2*i]), Integer.parseInt(args[2*i+1]));
-                    //Check if it is negative (DO)
+                    int itemValue = Integer.parseInt(args[2 * i]);
+                    int itemWeight = Integer.parseInt(args[2 * i + 1]);
+
+                    items[i] = new Item(itemValue, itemWeight);
+                    if (itemValue < 0 || itemWeight < 0) badArguments = true; // argument is negative
                 }
-            }catch (NumberFormatException nfe) {
-                System.out.println("Supplied values must be positive integers.");
+
+            } catch (NumberFormatException nfe) {
+                badArguments = true; // argument is not a number
             }
-            Cart myCart = heaviestCart(money, items);
-            System.out.println(myCart);
 
         } else {
+            badArguments = true; // not an odd number of arguments
+        }
+
+        if (badArguments) {
             System.out.println(getInstructions());
+        } else {
+            Cart heaviestCart = heaviestCart(money, items);
+            System.out.println(heaviestCart);
         }
     }
 }
