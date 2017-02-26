@@ -17,11 +17,11 @@ public class Item {
     }
 
     public String toString () {
-        String toPrint = "# Item: \n";
-        toPrint += " - Cost: ";
-        toPrint += this.cost;
-        toPrint += "\n - Weight: ";
-        toPrint += this.weight;
-        return toPrint;
+        StringBuilder sb = new StringBuilder("$");
+        sb.append(this.cost);
+        sb.append(" / ");
+        sb.append(this.weight);
+        sb.append(" pounds");
+        return sb.toString();
     }
 }

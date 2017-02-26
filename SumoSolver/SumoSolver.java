@@ -54,8 +54,7 @@ public class SumoSolver {
                 System.out.println("Supplied values must be integers.");
             }
             Cart myCart = heaviestCart(totalMoney, items);
-            for (Item i : myCart.getItems())
-                System.out.println(i);
+            System.out.println(myCart);
 
         } else System.out.println("One or more of the supplied dates is not valid");
     }

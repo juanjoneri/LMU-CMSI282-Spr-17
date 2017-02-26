@@ -52,4 +52,20 @@ public class Cart {
         return this.items;
     }
 
+    public String toString () {
+        StringBuilder sb = new StringBuilder();
+        for (Item i : items) {
+            sb.append(i.toString());
+            sb.append("\n");
+        }
+        sb.append(this.items.size());
+        sb.append(" items / ");
+        sb.append("$");
+        sb.append(this.totalCost);
+        sb.append(" / ");
+        sb.append(this.totalWeight);
+        sb.append(" pounds");
+        return sb.toString();
+    }
+
 }
