@@ -3,11 +3,44 @@ import java.util.Hashtable;
 
 public class SumoSolver {
 
-    public static Cart heaviestCart(int money, ArrayList<Item> storeItems) {
+    public static Hashtable<Coordinate, Cart> memo = new Hashtable<>();
+    // make a hashtable behave as if it where a table using Coordinate class
+    // x -> items
+    // y -> money
 
-        Hashtable<Integer, Cart> memo = new Hashtable<>(money);
+    public static Cart getHeaviestCart(int money, ArrayList<Item> storeItems) {
 
-        return null;
+        Cart heaviestCart = new Cart();
+
+        if (money <= 0 || storeItems.size() <= 0) return heaviestCart; //return the empty cart
+
+        int x = storeItems.size();
+        int y = money + 1;
+
+        Coordinate thisC = new Coordinate(x, y); // follow the heuristics of algorithm
+
+        if (memo.get(thisC) != null) {
+            return memo.get(thisC); // this is the best solution then
+        } else {
+            if (money > storeItems.get(x - 1).getCost()) {
+                // we can use one instance of the last item in the store
+                // copy solution for remainder of money
+                heaviestCart = new Cart(getHeaviestCart(y - storeItems.get(x - 1).getCost(), storeItems));
+                // add one instance of the current item
+                heaviestCart.addItem(storeItems.get(x - 1));
+            }
+
+            ArrayList<Item> storeItemsWOLast = new ArrayList<>(storeItems); // check if sol w/o last item is better
+            storeItemsWOLast.remove(x - 1);
+
+            // check if the solution for the same moeny y but store without last item is better
+            if (getHeaviestCart(y, storeItemsWOLast).getTotalWeight() > heaviestCart.getTotalWeight()){
+                heaviestCart = new Cart(getHeaviestCart(y, storeItemsWOLast));
+            };
+            memo.put(thisC, heaviestCart);
+        }
+
+        return heaviestCart;
     }
 
     public static String getInstructions () {
@@ -65,7 +98,7 @@ public class SumoSolver {
         if (badArguments) {
             System.out.println(getInstructions());
         } else {
-            Cart heaviestCart = heaviestCart(money, storeItems);
+            Cart heaviestCart = getHeaviestCart(money, storeItems);
             System.out.println(heaviestCart);
         }
     }
