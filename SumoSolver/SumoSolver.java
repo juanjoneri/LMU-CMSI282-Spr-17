@@ -13,8 +13,6 @@ public class SumoSolver {
         int x = storeItems.size();
         int y = money;
 
-        System.out.println("call " + x + " " + y);
-
         // use this as the keys for the memo
         String thisK = x + "" + y;
 
@@ -28,7 +26,6 @@ public class SumoSolver {
             if (y >= thisI.getCost()) {
                 // We have enough money to use one instance of the last item in the store
                 // copy solution for remainder of money, provided that we are not using one already
-                System.out.println("check left");
                 heaviestCart = new Cart(getHeaviestCart(y - thisI.getCost(), storeItems));
                 // add one instance of the current item
                 if (heaviestCart.contains(thisI)){
@@ -36,7 +33,6 @@ public class SumoSolver {
                     // just make it the worst cart possible so top cart will win later
                     heaviestCart = new Cart();
                 } else {
-                    System.out.println("we dont have it, add this");
                     heaviestCart.addItem(thisI);
                 }
             }
@@ -45,10 +41,8 @@ public class SumoSolver {
             // solution "on top" in the table
             ArrayList<Item> storeItemsWOLast = new ArrayList<>(storeItems);
             storeItemsWOLast.remove(x - 1);
-            System.out.println("check top");
             Cart topCart = new Cart(getHeaviestCart(y, storeItemsWOLast));
             if (topCart.getTotalWeight() >= heaviestCart.getTotalWeight()){
-                System.out.println("replace with top");
                 heaviestCart = topCart;
             }
             if (y - heaviestCart.getTotalCost() >= thisI.getCost() && !heaviestCart.contains(thisI)) {
@@ -57,7 +51,6 @@ public class SumoSolver {
 
             memo.put(thisK, heaviestCart);
         }
-        System.out.println("return from " + x + " " + y);
         return heaviestCart;
     }
 
