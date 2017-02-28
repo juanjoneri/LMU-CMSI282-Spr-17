@@ -30,7 +30,9 @@ public class SumoSolver {
                 // copy solution for remainder of money
                 heaviestCart = new Cart(getHeaviestCart(y - currentI.getCost(), storeItems));
                 // add one instance of the current item
-                heaviestCart.addItem(currentI);
+                if ( !heaviestCart.addItem(currentI) ){
+                    heaviestCart = new Cart(getHeaviestCart(y - 1, storeItems));
+                }
             }
 
             // check if the solution for the same money but store without last item is better
@@ -105,6 +107,8 @@ public class SumoSolver {
         } else {
             Cart heaviestCart = getHeaviestCart(money, storeItems);
             System.out.println(heaviestCart);
+            //System.out.println(storeItems);
+            //memo.forEach((k,v)-> System.out.println(k + ", " + v));
         }
     }
 }

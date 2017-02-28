@@ -26,10 +26,14 @@ public class Cart {
         this.totalWeight = toClone.getTotalWeight();
     }
 
-    public void addItem (Item item) {
+    public boolean addItem (Item item) {
+        for (Item i : this.items) {
+            if (i.getId() == item.getId()) return false;
+        }
         items.add(item);
         totalCost += item.getCost();
         totalWeight += item.getWeight();
+        return true;
     }
 
     public void addItem (int cost, int weight) {
@@ -61,7 +65,7 @@ public class Cart {
             sb.append("\n");
         }
         sb.append(getItemsCount());
-        sb.append(" items / ");
+        sb.append(" item(s) / ");
         sb.append("$");
         sb.append(this.totalCost);
         sb.append(" / ");
