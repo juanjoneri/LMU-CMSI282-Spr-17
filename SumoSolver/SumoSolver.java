@@ -33,10 +33,8 @@ public class SumoSolver {
                 // add one instance of the current item
                 if (heaviestCart.contains(thisI)){
                     // we cannot add one of these items because we have one already, check solution of top
-                    System.out.println("we hae it, y - 1");
-                    ArrayList<Item> storeItemsWOLast = new ArrayList<>(storeItems);
-                    storeItemsWOLast.remove(x - 1);
-                    heaviestCart = new Cart(getHeaviestCart(y, storeItemsWOLast));
+                    // just make it the worst cart possible so top cart will win later
+                    heaviestCart = new Cart();
                 } else {
                     System.out.println("we dont have it, add this");
                     heaviestCart.addItem(thisI);
