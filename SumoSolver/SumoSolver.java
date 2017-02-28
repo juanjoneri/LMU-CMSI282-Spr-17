@@ -15,34 +15,43 @@ public class SumoSolver {
         int x = storeItems.size();
         int y = money;
 
-        if (x == 0 || y == 0) return heaviestCart; //return the empty cart because we either have no money or no items :(
+        System.out.println(x + " " + y);
 
         Coordinate thisC = new Coordinate(x, y);
-        Item thisI = storeItems.get(x - 1);
 
-        if (memo.get(thisC) != null) {
+        if (memo.containsKey(thisC)) {
             // we have already computer this solution and we know it to be the best
             return memo.get(thisC);
         } else {
+            if (x == 0 || y == 0) return heaviestCart; //return the empty cart because we either have no money or no items :(
+
+            Item thisI = storeItems.get(x - 1);
             if (y >= thisI.getCost()) {
                 // We have enough money to use one instance of the last item in the store
                 // copy solution for remainder of money, provided that we are not using one already
+                System.out.println("check left");
                 heaviestCart = new Cart(getHeaviestCart(y - thisI.getCost(), storeItems));
                 // add one instance of the current item
                 if (heaviestCart.contains(thisI)){
                     // we cannot add one of these items because we have one already, check solution of left
+                    System.out.println("we hae it, y - 1");
                     heaviestCart = new Cart(getHeaviestCart(y - 1, storeItems));
                 } else {
+                    System.out.println("we dont have it, add this");
                     heaviestCart.addItem(thisI);
                 }
+            } else {
+                heaviestCart = new Cart(getHeaviestCart(y - 1, storeItems));
             }
 
             // Check if the solution for the same money but store without last item is better
             // solution "on top" in the table
             ArrayList<Item> storeItemsWOLast = new ArrayList<>(storeItems);
             storeItemsWOLast.remove(x - 1);
+            System.out.println("check top");
             Cart topCart = new Cart(getHeaviestCart(y, storeItemsWOLast));
             if (topCart.getTotalWeight() > heaviestCart.getTotalWeight()){
+                System.out.println("replace with top");
                 heaviestCart = topCart;
             }
 
