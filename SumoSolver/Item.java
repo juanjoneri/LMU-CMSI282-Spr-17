@@ -16,6 +16,7 @@ public class Item {
         return this.weight;
     }
 
+    @Override
     public String toString () {
         StringBuilder sb = new StringBuilder("$");
         sb.append(this.cost);
