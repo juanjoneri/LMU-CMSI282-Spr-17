@@ -27,6 +27,7 @@ public class Cart {
     }
 
     public boolean addItem (Item item) {
+        // carts cannot contain repetitions
         if (this.contains(item)) return false;
         items.add(item);
         totalCost += item.getCost();

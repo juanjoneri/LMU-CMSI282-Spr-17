@@ -8,6 +8,7 @@ public class Coordinate {
 
     @Override
     public String toString () {
+        // Debugging purposes
         return "(" + x + ", " + y + ")";
     }
 

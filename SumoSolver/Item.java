@@ -2,7 +2,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Item {
 
-    private long id; // to ensure no repetitions in the cart
+    private long id; // to ensure no repetitions, if so desired
     private int cost;
     private int weight;
 

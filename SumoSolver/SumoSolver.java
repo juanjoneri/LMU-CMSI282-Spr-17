@@ -4,10 +4,9 @@ import java.util.Hashtable;
 public class SumoSolver {
 
     public static Hashtable<Coordinate, Cart> memo = new Hashtable<>();
-    // make a hashtable behave as if it where a table using Coordinate class
+    // Make a hashtable behave as if it were a table using Coordinate class
     // x -> items
     // y -> money
-    // yes, i know its confusing
 
     public static Cart getHeaviestCart(int money, ArrayList<Item> storeItems) {
 
@@ -38,7 +37,7 @@ public class SumoSolver {
                 }
             }
 
-            // check if the solution for the same money but store without last item is better
+            // Check if the solution for the same money but store without last item is better
             // solution "on top" in the table
             ArrayList<Item> storeItemsWOLast = new ArrayList<>(storeItems);
             storeItemsWOLast.remove(x - 1);
@@ -64,9 +63,6 @@ public class SumoSolver {
         return instructions;
     }
 
-
-
-
     public static void main (String[] args) {
         /*
             1) get items in the store
@@ -76,6 +72,7 @@ public class SumoSolver {
             5) fill in the table with new carts with DP:
                 5.1) can I buy this item with this money?
                 5.2) add the solution for the money that remains (use clone and add 0 or 1 from 5.1)
+                5.3) check that we do not have repetitions, if so, use solution from the left
                 5.3) compare with solution without this item (on top) and replace if necessary
         */
 
@@ -84,7 +81,7 @@ public class SumoSolver {
         int money = 0;
 
         if (args.length % 2 == 1){
-
+        // We need 2n + 1 arguments for this program
             try {
                 money = Integer.parseInt(args[args.length - 1]);
                 if (money < 0) badArguments = true;
