@@ -23,7 +23,7 @@ public class SumoSolver {
             // we have already computer this solution and we know it to be the best
             return memo.get(thisC);
         } else {
-            if (x == 0 || y == 0) return heaviestCart; //return the empty cart because we either have no money or no items :(
+            if (x == 0 || y == 0) return heaviestCart; //return the empty cart because we either have no money or no items
 
             Item thisI = storeItems.get(x - 1);
             if (y >= thisI.getCost()) {
@@ -40,8 +40,6 @@ public class SumoSolver {
                     System.out.println("we dont have it, add this");
                     heaviestCart.addItem(thisI);
                 }
-            } else {
-                heaviestCart = new Cart(getHeaviestCart(y - 1, storeItems));
             }
 
             // Check if the solution for the same money but store without last item is better
@@ -50,7 +48,7 @@ public class SumoSolver {
             storeItemsWOLast.remove(x - 1);
             System.out.println("check top");
             Cart topCart = new Cart(getHeaviestCart(y, storeItemsWOLast));
-            if (topCart.getTotalWeight() > heaviestCart.getTotalWeight()){
+            if (topCart.getTotalWeight() >= heaviestCart.getTotalWeight()){
                 System.out.println("replace with top");
                 heaviestCart = topCart;
             }
