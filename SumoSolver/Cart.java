@@ -57,6 +57,13 @@ public class Cart {
         return this.items;
     }
 
+    public boolean contains (Item item) {
+        for (Item i : this.items) {
+            if (i.getId() == item.getId()) return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString () {
         StringBuilder sb = new StringBuilder();

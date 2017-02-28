@@ -19,19 +19,22 @@ public class SumoSolver {
         if (x == 0 || y == 0) return heaviestCart; //return the empty cart because we either have no money or no items :(
 
         Coordinate thisC = new Coordinate(x, y);
-        Item currentI = storeItems.get(x - 1);
+        Item thisI = storeItems.get(x - 1);
 
         if (memo.get(thisC) != null) {
             // we have already computer this solution and we know it to be the best
             return memo.get(thisC);
         } else {
-            if (y >= currentI.getCost()) {
+            if (y >= thisI.getCost()) {
                 // We have enough money to use one instance of the last item in the store
-                // copy solution for remainder of money
-                heaviestCart = new Cart(getHeaviestCart(y - currentI.getCost(), storeItems));
+                // copy solution for remainder of money, provided that we are not using one already
+                heaviestCart = new Cart(getHeaviestCart(y - thisI.getCost(), storeItems));
                 // add one instance of the current item
-                if ( !heaviestCart.addItem(currentI) ){
+                if (heaviestCart.contains(thisI)){
+                    // we cannot add one of these items because we have one already, check solution of left
                     heaviestCart = new Cart(getHeaviestCart(y - 1, storeItems));
+                } else {
+                    heaviestCart.addItem(thisI);
                 }
             }
 
@@ -107,8 +110,6 @@ public class SumoSolver {
         } else {
             Cart heaviestCart = getHeaviestCart(money, storeItems);
             System.out.println(heaviestCart);
-            //System.out.println(storeItems);
-            //memo.forEach((k,v)-> System.out.println(k + ", " + v));
         }
     }
 }
