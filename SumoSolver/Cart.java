@@ -27,9 +27,7 @@ public class Cart {
     }
 
     public boolean addItem (Item item) {
-        for (Item i : this.items) {
-            if (i.getId() == item.getId()) return false;
-        }
+        if (this.contains(item)) return false;
         items.add(item);
         totalCost += item.getCost();
         totalWeight += item.getWeight();
