@@ -3,7 +3,7 @@ import java.util.Hashtable;
 
 public class SumoSolver {
 
-    public static Hashtable<String, Cart> memo = new Hashtable<>();
+    public static Hashtable<Coordinate, Cart> memo = new Hashtable<>();
     // Make a hashtable behave as if it were a table using a key that depends on both money and items
 
     public static Cart getHeaviestCart(int money, ArrayList<Item> storeItems) {
@@ -14,13 +14,16 @@ public class SumoSolver {
         int y = money;
 
         // use this as the keys for the memo
-        String thisK = x + "" + y;
+        Coordinate thisC = new Coordinate(x, y);
 
-        if (memo.containsKey(thisK)) {
+        if (memo.containsKey(thisC)) {
             // we have already computer this solution and we know it to be the best
-            return memo.get(thisK);
+            return memo.get(thisC);
         } else {
-            if (x == 0 || y == 0) return heaviestCart; //return the empty cart because we either have no money or no items
+            if (x == 0 || y == 0) {
+                memo.put(thisC, heaviestCart);
+                return heaviestCart; //return the empty cart because we either have no money or no items
+            }
 
             Item thisI = storeItems.get(x - 1);
             if (y >= thisI.getCost()) {
@@ -42,14 +45,14 @@ public class SumoSolver {
             ArrayList<Item> storeItemsWOLast = new ArrayList<>(storeItems);
             storeItemsWOLast.remove(x - 1);
             Cart topCart = new Cart(getHeaviestCart(y, storeItemsWOLast));
+            if (y - topCart.getTotalCost() >= thisI.getCost()) {
+                topCart.addItem(thisI);
+            }
             if (topCart.getTotalWeight() >= heaviestCart.getTotalWeight()){
                 heaviestCart = topCart;
             }
-            if (y - heaviestCart.getTotalCost() >= thisI.getCost() && !heaviestCart.contains(thisI)) {
-                topCart.addItem(thisI);
-            }
 
-            memo.put(thisK, heaviestCart);
+            memo.put(thisC, heaviestCart);
         }
         return heaviestCart;
     }
