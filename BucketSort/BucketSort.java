@@ -17,13 +17,13 @@ public class BucketSort {
      public static ArrayList<Double> sort (double arr[], int n) {
           ArrayList<ArrayList<Double>> buckets = new ArrayList<ArrayList<Double>>(10);
 
-          for (int i = 0; i < 10; i ++) {
+          for (int i = 0; i < n; i ++) {
               buckets.add(new ArrayList<Double>());
           }
 
           // 2) Put array elements in different buckets
           for (int i = 0 ; i < n; i++) {
-             int index = (int) (arr[i] * 10);
+             int index = (int) (arr[i] * n);
              buckets.get(index).add(arr[i]);
           }
 
@@ -32,7 +32,7 @@ public class BucketSort {
           int i = 0;
 
           for (ArrayList<Double> bucket : buckets) {
-              Collections.sort(bucket);
+              if (bucket.size() >= 2) Collections.sort(bucket);
               for (Double d : bucket) {
                   ans.add(i++, d);
               }
