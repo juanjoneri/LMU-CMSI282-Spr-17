@@ -44,13 +44,4 @@ public class FileReader {
         }
     }
 
-    public static double[] convertDoubles(ArrayList<Double> doubles) {
-        doubles.trimToSize();
-        double[] ret = new double[doubles.size()];
-        Iterator<Double> iterator = doubles.iterator();
-        for (int i = 0; i < ret.length; i++)
-            ret[i] = iterator.next().doubleValue();
-        return ret;
-    }
-
 }
