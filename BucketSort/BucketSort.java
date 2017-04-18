@@ -23,9 +23,9 @@ public class BucketSort {
      */
     public static ArrayList<Double> bucketSort (ArrayList<Double> arr) {
         int n = arr.size();
-        int max = (int) Math.ceil(Collections.max(arr));
-        int min = (int) Math.floor(Collections.min(arr));
-        int range = max - min;
+        double min = Math.floor(Collections.min(arr));
+        double max = Math.ceil(Collections.max(arr));
+
         ArrayList<ArrayList<Double>> buckets = new ArrayList<ArrayList<Double>>(n);
 
         // Initialize Arraylist with new Buckets
@@ -35,8 +35,8 @@ public class BucketSort {
 
         // Place the doubles in their respective buckets
         for (int i = 0; i < n; i++) {
-            double normalizedElement = (arr.get(i) - min) / range;
-            int index = (int) (normalizedElement * n); // normalize the values for numbers greater than 1
+            double normalizedElement = noramlize(arr.get(i), min, max);
+            int index = (int) (normalizedElement * n);
             buckets.get(index).add(arr.get(i));
         }
 
@@ -85,6 +85,18 @@ public class BucketSort {
     private static void swap (ArrayList<Double> bucket, int i, int j) {
         ArrayList<Double> l = bucket;
         l.set(i, l.set(j, l.get(i)));
+    }
+
+    /**
+     * normalizes the elemnt to be between 0 and 1 according to max and min
+     *
+     * @param toNormalize the double values that needs to be normalized into [s0, 1)
+     * @param max the max element in the range
+     * @param min the min element in the range
+     */
+    private static double noramlize (double toNormalize, double min, double max) {
+        double range = max - min;
+        return (toNormalize - min) / range;
     }
 
     /**
