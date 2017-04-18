@@ -4,8 +4,6 @@ import java.io.*;
 
 /**
  * this class deals with the complications of reading lines from stdIn
- * could be made internal to KthSmallest but.. it would have been to much in just one file
- * besides we might use this in the future!
  */
 public class FileReader {
 
@@ -34,6 +32,7 @@ public class FileReader {
     }
 
     /**
+     * @param line a String line that contains a double value to be safely converted to a double
      * @return the integer value of the string, or MAX_VALLUE in case the string is not a number
      */
     private double readNumber (String line) {
