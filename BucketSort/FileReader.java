@@ -21,7 +21,7 @@ public class FileReader {
         String line = null;
         try {
             while ((line  = stdIn.readLine()) != null) {
-                double toAdd = readNumber(line);
+                double toAdd = readDouble(line);
                 if (toAdd < Double.MAX_VALUE) numbers.add(toAdd);
                 else return new ArrayList<Double>();
             }
@@ -35,7 +35,7 @@ public class FileReader {
      * @param line a String line that contains a double value to be safely converted to a double
      * @return the integer value of the string, or MAX_VALLUE in case the string is not a number
      */
-    private double readNumber (String line) {
+    private double readDouble (String line) {
         try {
             return Double.parseDouble(line);
         } catch (NumberFormatException nfe) {

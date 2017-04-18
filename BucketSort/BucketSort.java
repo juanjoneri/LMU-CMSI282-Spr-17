@@ -1,38 +1,39 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+
+    /**
+    * Make BucketSort.java, a program that takes an arbitrary file of doubles
+    * (i.e., both the amount of data and their range are arbitrary) from standard input,
+    * then outputs them in ascending order, using the algorithm discussed in class.
+    * Your program should read the data into a java.util.ArrayList;
+    * use small ArrayLists (rather than linked lists) for the buckets;
+    * and merge the buckets back into the original ArrayList before outputting the results. n
+    * A typical invocation of your program might look like this: java BucketSort < FileFullOfDoubles
+    */
 
 public class BucketSort {
 
     /**
-     * Make BucketSort.java, a program that takes an arbitrary file of doubles
-     * (i.e., both the amount of data and their range are arbitrary) from standard input,
-     * then outputs them in ascending order, using the algorithm discussed in class.
-     * Your program should read the data into a java.util.ArrayList;
-     * use small ArrayLists (rather than linked lists) for the buckets;
-     * and merge the buckets back into the original ArrayList before outputting the results. n
-     * A typical invocation of your program might look like this: java BucketSort < FileFullOfDoubles
+     * Performs bucket sort on an ArrayList whose elements by evenly distributing them between 0 and 1
+     *
+     * @param arr the collection whose elements are to be insertion sorted
+     * @param n the size of the ArrayList arr
+     * @return the sorted ArrayList
      */
-
-
-     /**
-      * Performs bucket sort on an ArrayList whose elements are evenly distributed between 0 and 1
-      *
-      * @param arr the collection whose elements are to be insertion sorted
-      * @param n the size of the ArrayList arr
-      * @return the sorted ArrayList
-      */
-     public static ArrayList<Double> bucketSort (ArrayList<Double> arr) {
+    public static ArrayList<Double> bucketSort (ArrayList<Double> arr) {
         int n = arr.size();
+        int max = (int) Math.ceil(Collections.max(arr));
         ArrayList<ArrayList<Double>> buckets = new ArrayList<ArrayList<Double>>(n);
 
         // Initialize Arraylist with new Buckets
-        for (int i = 0; i < n; i ++) {
+        for (int i = 0; i <= n; i ++) {
             buckets.add(new ArrayList<Double>());
         }
 
         // Place the doubles in their respective buckets
         for (int i = 0; i < n; i++) {
-            int index = (int) (arr.get(i) * n);
+            int index = (int) (arr.get(i) * n / max); // normalize the values for numbers greater than 1
             buckets.get(index).add(arr.get(i));
         }
 
@@ -116,6 +117,7 @@ public class BucketSort {
     }
 
     public static void main (String[] args) {
+        boolean checkSolution = false;
 
         FileReader fr = new FileReader();
         ArrayList<Double> numbersList = fr.readNumbers();
@@ -125,10 +127,10 @@ public class BucketSort {
             ArrayList<Double> sortedDoubles = bucketSort(numbersList);
 
             System.out.println(listDoubles(sortedDoubles));
-            System.out.println(isSorted(sortedDoubles) ? "\n ✔ Doubles are sorted" : "\n X Doubles are not sorted");
+            if (checkSolution)
+                System.out.println(isSorted(sortedDoubles) ? " ✔ Doubles are sorted" : " X Doubles are not sorted");
         } else {
             System.out.println("BAD DATA");
         }
-
 	}
 }
