@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 public class BucketSort {
 
@@ -14,20 +12,29 @@ public class BucketSort {
      * A typical invocation of your program might look like this: java BucketSort < FileFullOfDoubles
      */
 
+
+     /**
+      * Performs bucket sort on an ArrayList whose elements are evenly distributed between 0 and 1
+      *
+      * @param arr the collection whose elements are to be insertion sorted
+      * @param n the size of the ArrayList arr
+      * @return the sorted ArrayList
+      */
      public static ArrayList<Double> bucketSort (double arr[], int n) {
           ArrayList<ArrayList<Double>> buckets = new ArrayList<ArrayList<Double>>(10);
 
+          // Initialize Arraylist with new Buckets
           for (int i = 0; i < n; i ++) {
               buckets.add(new ArrayList<Double>());
           }
 
-          // 2) Put array elements in different buckets
+          // Place the doubles in their respective buckets
           for (int i = 0; i < n; i++) {
              int index = (int) (arr[i] * n);
              buckets.get(index).add(arr[i]);
           }
 
-          // 3) Sort individual buckets and add to final list
+          // Sort the buckets in order and append them to ans
           ArrayList<Double> ans = new ArrayList<>(n);
           int i = 0;
 
@@ -41,16 +48,23 @@ public class BucketSort {
           return ans;
     }
 
+    /**
+     * Performs insertion sort on an ArrayList in place
+     *
+     * @param bucket the collection whose elements are to be insertion sorted
+     * @return the sorted arraylist
+     */
     private static ArrayList<Double> insertSort (ArrayList<Double> bucket) {
         if (bucket.size() == 2) {
             if (bucket.get(0) > bucket.get(1)) swap(bucket, 0, 1);
             return bucket;
         }
 
-        int edge = 0;
-        for (int i = edge; i >= 0; i--) {
-            if (bucket.get(i) > bucket.get(i+1)) swap(bucket, i, i+1);
-            else break;
+        for (int edge = 0; edge < bucket.size() - 1; edge ++) {
+            for (int i = edge; i >= 0; i--) {
+                if (bucket.get(i) > bucket.get(i+1)) swap(bucket, i, i+1);
+                else break;
+            }
         }
         return bucket;
     }
@@ -67,6 +81,38 @@ public class BucketSort {
         l.set(i, l.set(j, l.get(i)));
     }
 
+    /**
+     * Returns a String with the elements of an ArrayList one after the other with like breaks
+     *
+     * @param arr the ArrayList which elements are to be stored in a String
+     */
+    private static String listDoubles (ArrayList<Double> arr) {
+        StringBuilder ans = new StringBuilder();
+        for (Double d : arr) {
+            ans.append(d);
+            ans.append("\n");
+        }
+        return ans.toString();
+    }
+
+    /**
+     * Asserts that an ArrayList has its elements in ascending order, O(n)
+     *
+     * @param arr the ArrayList whose order is to be checked
+     * @return a true or false value indicating the order of the list
+     */
+    private static boolean isSorted (ArrayList<Double> arr) {
+        boolean sorted = true;
+
+        for (int i = 0; i < arr.size() - 1; i++) {
+            if (arr.get(i) > arr.get(i+1)) {
+                sorted = false;
+                break;
+            }
+        }
+        return sorted;
+    }
+
     public static void main (String[] args) {
 
         FileReader fr = new FileReader();
@@ -74,7 +120,10 @@ public class BucketSort {
         boolean goodList = numbers.length > 0;
 
         if (goodList) {
-            System.out.println(Arrays.toString(bucketSort(numbers, numbers.length).toArray()));
+            ArrayList<Double> sortedDoubles = bucketSort(numbers, numbers.length);
+
+            System.out.println(listDoubles(sortedDoubles));
+            System.out.println(isSorted(sortedDoubles) ? "\n ✔ Doubles are sorted" : "\n X Doubles are not sorted");
         } else {
             System.out.println("BAD DATA");
         }
