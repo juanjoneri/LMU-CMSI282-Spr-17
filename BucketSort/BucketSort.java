@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class BucketSort {
 
@@ -20,36 +21,37 @@ public class BucketSort {
       * @param n the size of the ArrayList arr
       * @return the sorted ArrayList
       */
-     public static ArrayList<Double> bucketSort (double arr[], int n) {
-          ArrayList<ArrayList<Double>> buckets = new ArrayList<ArrayList<Double>>(10);
+     public static ArrayList<Double> bucketSort (ArrayList<Double> arr) {
+        int n = arr.size();
+        ArrayList<ArrayList<Double>> buckets = new ArrayList<ArrayList<Double>>(n);
 
-          // Initialize Arraylist with new Buckets
-          for (int i = 0; i < n; i ++) {
-              buckets.add(new ArrayList<Double>());
-          }
+        // Initialize Arraylist with new Buckets
+        for (int i = 0; i < n; i ++) {
+            buckets.add(new ArrayList<Double>());
+        }
 
-          // Place the doubles in their respective buckets
-          for (int i = 0; i < n; i++) {
-             int index = (int) (arr[i] * n);
-             buckets.get(index).add(arr[i]);
-          }
+        // Place the doubles in their respective buckets
+        for (int i = 0; i < n; i++) {
+            int index = (int) (arr.get(i) * n);
+            buckets.get(index).add(arr.get(i));
+        }
 
-          // Sort the buckets in order and append them to ans
-          ArrayList<Double> ans = new ArrayList<>(n);
-          int i = 0;
+        // Sort the buckets in order and append them to ans
+        arr.clear();
+        int i = 0;
 
-          for (ArrayList<Double> bucket : buckets) {
-              if (bucket.size() >= 2) insertSort(bucket);
-              for (Double d : bucket) {
-                  ans.add(i++, d);
-              }
-          }
+        for (ArrayList<Double> bucket : buckets) {
+            if (bucket.size() >= 2) insertSort(bucket);
+            for (Double d : bucket) {
+                arr.add(i++, d);
+            }
+        }
 
-          return ans;
+        return arr;
     }
 
     /**
-     * Performs insertion sort on an ArrayList in place
+     * Performs insertion sort on an ArrayList in place O(n^2)
      *
      * @param bucket the collection whose elements are to be insertion sorted
      * @return the sorted arraylist
@@ -116,11 +118,11 @@ public class BucketSort {
     public static void main (String[] args) {
 
         FileReader fr = new FileReader();
-        double[] numbers = fr.readNumbers();
-        boolean goodList = numbers.length > 0;
+        ArrayList<Double> numbersList = fr.readNumbers();
+        boolean goodList = numbersList.size() > 0;
 
         if (goodList) {
-            ArrayList<Double> sortedDoubles = bucketSort(numbers, numbers.length);
+            ArrayList<Double> sortedDoubles = bucketSort(numbersList);
 
             System.out.println(listDoubles(sortedDoubles));
             System.out.println(isSorted(sortedDoubles) ? "\n ✔ Doubles are sorted" : "\n X Doubles are not sorted");

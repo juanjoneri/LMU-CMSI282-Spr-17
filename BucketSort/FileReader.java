@@ -18,19 +18,19 @@ public class FileReader {
     /**
      * @return a double array holding the doubles found in stdIn, or an empty array if there is a problem
      */
-    public double[] readNumbers () {
+    public ArrayList<Double> readNumbers () {
         ArrayList<Double> numbers = new ArrayList<>();
         String line = null;
         try {
             while ((line  = stdIn.readLine()) != null) {
                 double toAdd = readNumber(line);
                 if (toAdd < Double.MAX_VALUE) numbers.add(toAdd);
-                else return new double[] {};
+                else return new ArrayList<Double>();
             }
         } catch (IOException e) {
             System.out.println("cannot read file ");
         }
-        return convertDoubles(numbers);
+        return numbers;
     }
 
     /**
