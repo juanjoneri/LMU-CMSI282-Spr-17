@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
+import java.io.*;
 
     /**
     * Make BucketSort.java, a program that takes an arbitrary file of doubles
@@ -132,7 +134,7 @@ public class BucketSort {
     }
 
     public static void main (String[] args) {
-        boolean checkSolution = true;
+        boolean checkSolution = false;
 
         FileReader fr = new FileReader();
         ArrayList<Double> numbersList = fr.readNumbers();
@@ -141,11 +143,54 @@ public class BucketSort {
         if (goodList) {
             ArrayList<Double> sortedDoubles = bucketSort(numbersList);
 
-            System.out.println(listDoubles(sortedDoubles));
+            System.out.printf(listDoubles(sortedDoubles));
             if (checkSolution)
                 System.out.println(isSorted(sortedDoubles) ? " ✔ Doubles are sorted" : " X Doubles are not sorted");
         } else {
             System.out.println("BAD DATA");
         }
 	}
+
+    /**
+     * this class deals with the complications of reading lines from stdIn
+     */
+    private static class FileReader {
+
+        private java.io.BufferedReader stdIn;
+
+        public FileReader () {
+            stdIn = new java.io.BufferedReader (new java.io.InputStreamReader(System.in));
+        }
+
+        /**
+         * @return a double array holding the doubles found in stdIn, or an empty array if there is a problem
+         */
+        public ArrayList<Double> readNumbers () {
+            ArrayList<Double> numbers = new ArrayList<>();
+            String line = null;
+            try {
+                while ((line  = stdIn.readLine()) != null) {
+                    double toAdd = readDouble(line);
+                    if (toAdd < Double.MAX_VALUE) numbers.add(toAdd);
+                    else return new ArrayList<Double>();
+                }
+            } catch (IOException e) {
+                System.out.println("cannot read file ");
+            }
+            return numbers;
+        }
+
+        /**
+         * @param line a String line that contains a double value to be safely converted to a double
+         * @return the integer value of the string, or MAX_VALLUE in case the string is not a number
+         */
+        private double readDouble (String line) {
+            try {
+                return Double.parseDouble(line);
+            } catch (NumberFormatException nfe) {
+                return Double.MAX_VALUE;
+            }
+        }
+
+    }
 }
