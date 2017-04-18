@@ -24,6 +24,8 @@ public class BucketSort {
     public static ArrayList<Double> bucketSort (ArrayList<Double> arr) {
         int n = arr.size();
         int max = (int) Math.ceil(Collections.max(arr));
+        int min = (int) Math.floor(Collections.min(arr));
+        int range = max - min;
         ArrayList<ArrayList<Double>> buckets = new ArrayList<ArrayList<Double>>(n);
 
         // Initialize Arraylist with new Buckets
@@ -33,7 +35,8 @@ public class BucketSort {
 
         // Place the doubles in their respective buckets
         for (int i = 0; i < n; i++) {
-            int index = (int) (arr.get(i) * n / max); // normalize the values for numbers greater than 1
+            double normalizedElement = (arr.get(i) - min) / range;
+            int index = (int) (normalizedElement * n); // normalize the values for numbers greater than 1
             buckets.get(index).add(arr.get(i));
         }
 
@@ -117,7 +120,7 @@ public class BucketSort {
     }
 
     public static void main (String[] args) {
-        boolean checkSolution = false;
+        boolean checkSolution = true;
 
         FileReader fr = new FileReader();
         ArrayList<Double> numbersList = fr.readNumbers();
