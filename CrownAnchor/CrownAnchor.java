@@ -7,18 +7,19 @@
 
 public class CrownAnchor {
 
-    private static final String[] suits = {"Heats", "Spade", "Club", "Diamond", "Crown", "Anchor"};
+    private static final String[] SUITS = {"Heats", "Spade", "Club", "Diamond", "Crown", "Anchor"};
+    private static final int TRHOWS = 3;
+    private static final int ROUNDS = 1_000_000;
 
-    public static int round (String suit, int bet) {
+    public static int round (String chosenSuit, int bet) {
         int score = 0;
 
-        for (int i = 0; i < 3; i ++) {
-            String die = randomSuit(suits);
-            if (die.equals(suit)) score ++;
+        for (int i = 0; i < TRHOWS; i ++) {
+            String die = randomSuit(SUITS);
+            if (die.equals(chosenSuit)) score ++;
         }
 
-        if (score == 0) return 0;
-        else return (score + 1) * (bet);
+        return score == 0 ? 0 : (score + 1) * bet;
     }
 
     public static int game (int rounds) {
@@ -27,7 +28,7 @@ public class CrownAnchor {
 
         for (int round = 0; round < rounds; round ++) {
             money -= bet;
-            money += round(randomSuit(suits), bet);
+            money += round(randomSuit(SUITS), bet);
         }
 
         return money;
@@ -37,15 +38,24 @@ public class CrownAnchor {
         return (int) ((Math.random() * (max - min)) + min);
     }
 
-    private static String randomSuit (String[] suits) {
-        return suits[random(0, suits.length)];
+    private static String randomSuit (String[] SUITS) {
+        return SUITS[random(0, SUITS.length)];
     }
 
     public static void main (String[] args) {
 
-        int earnedMoney = game(1_000_000);
-        System.out.println("$" + earnedMoney);
-        System.out.println(earnedMoney > 0 ? "Won Money" : "Lost Money");
+        int earnedMoney = game(ROUNDS);
+
+        System.out.printf("# After " + ROUNDS + " rounds you ");
+        System.out.printf(earnedMoney > 0 ? "Won" : "Lost");
+        System.out.println("\n$" + earnedMoney);
+
+        System.out.println("\n\n----\n");
+
+        double percentage = (double) earnedMoney * 100 / (double) ROUNDS;
+        System.out.printf(earnedMoney > 0 ? "# Win" : "# Loss");
+        System.out.printf(" rate\n");
+        System.out.println(percentage + "%");
     }
 
 }
