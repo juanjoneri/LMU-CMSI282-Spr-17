@@ -50,8 +50,9 @@ public class CrownAnchor {
         System.out.printf(earnedMoney > 0 ? "Won" : "Lost");
         System.out.println("\n$" + earnedMoney);
 
-        System.out.println("\n\n----\n");
+        System.out.println("\n----\n");
 
+        double percentage = (double) earnedMoney * 100 / (double) ROUNDS;
         System.out.printf(earnedMoney > 0 ? "# Win" : "# Loss");
         System.out.printf(" rate\n");
         System.out.println(percentage + "%");
