@@ -80,6 +80,8 @@ public class FamilyMath {
      * @return whether this permutation follows the rules or the game and is indeed a solution
      */
     private static boolean isSolution (int[] permutation) {
+        if (!hasDigits(permutation)) return false;
+
         int[][] sides = getSides(permutation);
 
         int sum = addSide(sides[0]);
@@ -88,6 +90,22 @@ public class FamilyMath {
             newSum = addSide(side);
             if (newSum != sum) return false;
             sum = newSum;
+        }
+        return true;
+    }
+
+    /**
+     * Checks if the array has all the digits from 0 to 9 inclusive. For use inside isSolution. This makes the solution slower but more accurate
+     *
+     * @param arr an array that might or might not have all the digits form 0 to 9
+     * @return whether this array has all the digits
+     */
+    private static boolean hasDigits (int[] arr) {
+        outer: for (int i = 0; i < 10; i ++) {
+            for (int j : arr) {
+                if (j == i) continue outer;
+            }
+            return false;
         }
         return true;
     }
