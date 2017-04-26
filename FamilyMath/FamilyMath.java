@@ -5,14 +5,10 @@ public class FamilyMath {
     private static void nextPermutation (int[] arr) {
         int i = findEdge(arr);
         if (i <= 0) return; // no further permutations exist
-
         int j = findNextBigger(arr, i - 1);
-
         swap(arr, i - 1, j);
-
         reverseSuffix(arr, i);
     }
-
 
     private static int findEdge (int[] arr) {
         int i = arr.length - 1;
@@ -21,7 +17,6 @@ public class FamilyMath {
         return i;
     }
 
-    // find the position of the next biggest to the right of s, s is a position
     private static int findNextBigger (int[] arr, int s) {
         int i = arr.length - 1;
         while (arr[i] <= arr[s])
@@ -88,20 +83,19 @@ public class FamilyMath {
         for (int i : arr) result += i;
         return result;
     }
-    /*
-    Find the highest index i such that s[i] < s[i+1]. If no such index exists, the permutation is the last permutation.
-    Find the highest index j > i such that s[j] > s[i]. Such a j must exist, since i+1 is such an index.
-    Swap s[i] with s[j].
-    Reverse the order of all of the elements after index i till the last element.
-    */
 
-
+    /**
+     * Find the highest index i such that s[i] < s[i+1]. If no such index exists, the permutation is the last permutation.
+     * Find the highest index j > i such that s[j] > s[i]. Such a j must exist, since i+1 is such an index.
+     * Swap s[i] with s[j].
+     * Reverse the order of all of the elements after index i till the last element.
+     */
     public static void main (String[] args) {
-        int[] permutation = new int[] {0,1,2};
+        int[] permutation = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-        for (int i = 0; i < 10; i ++) {
-            // if (isSolution(permutation)) break;
-            System.out.println(Arrays.toString(permutation));
+        for (int i = 0; i < 3_628_800; i ++) {
+            if (isSolution(permutation))
+                System.out.println(Arrays.toString(permutation));
             nextPermutation(permutation);
         }
     }
