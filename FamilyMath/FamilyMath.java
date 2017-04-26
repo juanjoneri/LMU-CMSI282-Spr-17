@@ -16,17 +16,19 @@ public class FamilyMath {
 
         if (permutation.length != 10) return sides;
 
-        int i = 0; // position in sides
-        int counter = 0; // track the %3 thing
-        int side = 0; // current side
-        for (int j = 0; j < (5 * 3); j ++) {
-            sides[side][counter] = permutation[i];
+        int i = 0; // position in sides array
+        int cell = 0; // current cell in the pentagon
+        int side = 0; // current side of the pentagon
 
-            counter ++;
+        // iterate over 15 elements to fill in the pentagon
+        for (int j = 0; j < (5 * 3); j ++) {
+            sides[side][cell] = permutation[i];
+
+            cell ++;
             i ++;
-            if (counter == 3) {
+            if (cell == 3) {
                 side ++;
-                counter = 0;
+                cell = 0;
                 i --;
             }
             i %= 10;
@@ -36,7 +38,7 @@ public class FamilyMath {
 
 
     public static void main (String[] args) {
-        int[] permutation = new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int[] permutation = new int[] {9,8,7,6,5,4,3,2,1,0};
         System.out.println(Arrays.deepToString(sides(permutation)));
     }
 }
