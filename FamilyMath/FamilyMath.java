@@ -7,11 +7,25 @@ public class FamilyMath {
     }
 
     private static boolean isSolution (int[] permutation) {
-        // Check the shape is compatible with the game
+        int[][] sides = getSides(permutation);
+
+        int sum = add(sides[0]);
+        int newSum = 0;
+        for (int[] side : sides) {
+            newSum = add(side);
+            if (newSum != sum) return false;
+            sum = newSum;
+        }
         return true;
     }
 
-    private static int[][] sides (int[] permutation) {
+    private static int add (int[] arr) {
+        int result = 0;
+        for (int i : arr) result += i;
+        return result;
+    }
+
+    private static int[][] getSides (int[] permutation) {
         int[][] sides = new int[5][3];
 
         if (permutation.length != 10) return sides;
@@ -38,7 +52,8 @@ public class FamilyMath {
 
 
     public static void main (String[] args) {
-        int[] permutation = new int[] {9,8,7,6,5,4,3,2,1,0};
-        System.out.println(Arrays.deepToString(sides(permutation)));
+        int[] permutation = new int[] {1,0,2,0,1,1,1,1,1,1};
+        System.out.println(Arrays.deepToString(getSides(permutation)));
+        System.out.println(isSolution(permutation));
     }
 }
