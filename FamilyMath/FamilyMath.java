@@ -2,77 +2,79 @@ import java.util.Arrays;
 
 public class FamilyMath {
 
-    private static int[] nextPermutation (int[] currentPermutation) {
-        int edge = currentPermutation.length - 1;
-
-        for (int i = currentPermutation.length - 1; i > 0; i --) {
-            if (currentPermutation[i] > currentPermutation[i - 1]) {
-                edge = (i - 1);
-                break;
-            }
+    private static void nextPermutation (int[] arr) {
+        int i = arr.length - 1;
+        while (i > 0 && arr[i - 1] >= arr[i]) {
+            i--;
         }
-        return reverseSuffix(swap(currentPermutation, edge + 1, findNextBigger(currentPermutation, edge)), edge);
+
+        if (i <= 0)
+            return;
+
+        int j = arr.length - 1;
+
+        while (arr[j] <= arr[i - 1]) {
+            j--;
+        }
+
+        int temp = arr[i - 1];
+        arr[i - 1] = arr[j];
+        arr[j] = temp;
+
+        reverseSuffix(arr, i);
     }
 
-    private static int[] reverseSuffix (int[] arr, int start) {
-        int[] result = arr.clone();
+    private static void reverseSuffix (int[] arr, int start) {
         int end = arr.length - 1;
-
         while (start < end) {
-            result = swap(arr, start, end);
+            swap(arr, start, end);
             start ++;
             end --;
         }
-
-        return result;
     }
 
-    private static int[] swap (int[] arr, int x, int y) {
-        int[] result = arr.clone();
-        int temp = result[x];
-        result[x] = result[y];
-        result[y] = temp;
-        return result;
+    private static void swap (int[] arr, int x, int y) {
+        int temp = arr[x];
+        arr[x] = arr[y];
+        arr[y] = temp;
     }
 
     // find the position of the next biggest to the right of s, s is a position
     private static int findNextBigger (int[] arr, int s) {
-        int big = s + 1;
-
-        for (int i = s; i < arr.length; i ++) {
-            // check is bigger than the small vale
-            // but smaller than the previously found solution
-            if (arr[i] > arr[s] && arr[i] < arr[big])
-                big = i;
-        }
-        return big;
+        int i = arr.length - 1;
+        while (arr[i] <= arr[s])
+            i --;
+        return i;
     }
+
+    private static int findEdge (int[] arr) {
+        int i = arr.length - 1;
+        while (i > 0 && arr[i - 1] >= arr[i])
+            i--;
+        return i - 1;
+    }
+
 
     private static boolean isSolution (int[] permutation) {
         int[][] sides = getSides(permutation);
 
-        int sum = add(sides[0]);
+        int sum = addSide(sides[0]);
         int newSum = 0;
         for (int[] side : sides) {
-            newSum = add(side);
+            newSum = addSide(side);
             if (newSum != sum) return false;
             sum = newSum;
         }
         return true;
     }
 
-    private static int add (int[] arr) {
-        int result = 0;
-        for (int i : arr) result += i;
-        return result;
-    }
 
     private static int[][] getSides (int[] permutation) {
         int[][] sides = new int[5][3];
 
         if (permutation.length != 10) return sides;
 
-        int i = 0; // position in sides array
+        int i = 0; // position in sides arr
         int cell = 0; // current cell in the pentagon
         int side = 0; // current side of the pentagon
 
@@ -92,6 +94,11 @@ public class FamilyMath {
         return sides;
     }
 
+    private static int addSide (int[] arr) {
+        int result = 0;
+        for (int i : arr) result += i;
+        return result;
+    }
     /*
     Find the highest index i such that s[i] < s[i+1]. If no such index exists, the permutation is the last permutation.
     Find the highest index j > i such that s[j] > s[i]. Such a j must exist, since i+1 is such an index.
@@ -106,7 +113,7 @@ public class FamilyMath {
         for (int i = 0; i < 10; i ++) {
             // if (isSolution(permutation)) break;
             System.out.println(Arrays.toString(permutation));
-            permutation = nextPermutation(permutation);
+            nextPermutation(permutation);
         }
     }
 }
