@@ -3,40 +3,22 @@ import java.util.Arrays;
 public class FamilyMath {
 
     private static void nextPermutation (int[] arr) {
-        int i = arr.length - 1;
-        while (i > 0 && arr[i - 1] >= arr[i]) {
-            i--;
-        }
+        int i = findEdge(arr);
+        if (i <= 0) return; // no further permutations exist
 
-        if (i <= 0)
-            return;
+        int j = findNextBigger(arr, i - 1);
 
-        int j = arr.length - 1;
-
-        while (arr[j] <= arr[i - 1]) {
-            j--;
-        }
-
-        int temp = arr[i - 1];
-        arr[i - 1] = arr[j];
-        arr[j] = temp;
+        swap(arr, i - 1, j);
 
         reverseSuffix(arr, i);
     }
 
-    private static void reverseSuffix (int[] arr, int start) {
-        int end = arr.length - 1;
-        while (start < end) {
-            swap(arr, start, end);
-            start ++;
-            end --;
-        }
-    }
 
-    private static void swap (int[] arr, int x, int y) {
-        int temp = arr[x];
-        arr[x] = arr[y];
-        arr[y] = temp;
+    private static int findEdge (int[] arr) {
+        int i = arr.length - 1;
+        while (i > 0 && arr[i - 1] >= arr[i])
+            i--;
+        return i;
     }
 
     // find the position of the next biggest to the right of s, s is a position
@@ -47,13 +29,20 @@ public class FamilyMath {
         return i;
     }
 
-    private static int findEdge (int[] arr) {
-        int i = arr.length - 1;
-        while (i > 0 && arr[i - 1] >= arr[i])
-            i--;
-        return i - 1;
+    private static void swap (int[] arr, int x, int y) {
+        int temp = arr[x];
+        arr[x] = arr[y];
+        arr[y] = temp;
     }
 
+    private static void reverseSuffix (int[] arr, int start) {
+        int end = arr.length - 1;
+        while (start < end) {
+            swap(arr, start, end);
+            start ++;
+            end --;
+        }
+    }
 
     private static boolean isSolution (int[] permutation) {
         int[][] sides = getSides(permutation);
